@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>3D map</title>
+    <link rel="stylesheet" href="modal.css">
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <script src="https://use.fontawesome.com/99cbe7d1b9.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/3.3.1/screenfull.js"></script>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.4/esri/css/main.css">
+    <script src="https://js.arcgis.com/4.4/"></script>
+    <script src="video.js"></script>
+    <script src="two_d.js"></script>
+    <script src="three_d.js"></script>
+    <link rel="stylesheet" type="text/css" href="./three_d.css">
+</head>
+<body>
+    <div id="whole-menu">
+        <div id="menuButton" onclick="toggleMenu()">
+            <i class="fa fa-bars fa-3x"></i>
+        </div>
+        <ul id="menu">
+            <li id="pause-button" onclick="togglePause()"><i class="fa fa-pause"></i> Pause</li>
+            <li id="lock-button" onclick="toggleLock()"><i class="fa fa-unlock-alt"></i> Unlocked</li>
+            <li id="travel-button" onclick="toggleMap()"><i class="fa fa-globe"></i> 3D scene</li>
+            <li id="fullscreen-button" onclick="toggleFullscreen()"><i class="fa fa-square-o"></i> Fullscreen</li>
+            <li id="settings" onclick="toggleSettings()"><i class="fa fa-cog"></i> Settings  </li>
+        </ul>
+        <ul id="settings-menu">
+            <li>
+                <div onclick="toggleSettingsList('virtual-world')">Virtual World <i class="fa fa-angle-right"></i></div>
+                <ul id="virtual-world" class="settings-li">
+                    <li>Elevation <input id="elevation-num" type="number" value="32" onchange="setElevation(this.value)" /></li>
+                    <li>FOV <input id="fov-range" type="range" min="1" max="111" step="1" value="60" onchange="adjustFOV(this.value)" /> <input id="fov-num" type="number" style="width: 3em" value="60" onchange="adjustFOV(this.value)" /></li>
+                </ul>
+            </li>
+            <li>
+                <div onclick="toggleSettingsList('camera')">Camera <i class="fa fa-angle-right"></i></div>
+                <ul id="camera" class="settings-li">
+                    <li>
+                        <div>
+                            <label for="videoSource">Camera: </label><select id="videoSource"></select>
+                        </div>
+                    </li>
+                    <li>Transparency <input type="range" min="0" max="1" step="0.1" value="1" onchange="changeOpacity(this.value)" /></li>
+                </ul>
+            </li>
+            <li>
+                <div onclick="toggleSettingsList('layers')">Layers <i class="fa fa-angle-right"></i></div>
+                <ul id="layers" class="settings-li">
+                    <li id="see-through-ground" onclick="toggleSeeThroughGround()"><input id="cb" type="checkbox" /> See through ground</li>
+                    <li id="electric-lines" onclick="toggleElectricLines()"><input id="cbe" type="checkbox" checked /> Electric Lines</li>
+                    <li id="buildings" onclick="toggleBuildings()"><input id="cbb" type="checkbox" checked /> 3D Buildings</li>
+                </ul>
+            </li>
+            <li id="desktop-debug" onclick="toggleDesktopDebugMode()"><i class="fa fa-desktop"></i> Enable Desktop Debug Mode</li>
+        </ul>
+    </div>
+    <div id="ns"></div>
+    <div id="viewDiv"></div>
+    <div id="viewDiv2D"></div>
+
+    <div class="video-container">
+        <video id="video" muted autoplay></video>
+    </div>
+    <div id="zoom-slider-div">
+        <p>Zoom In</p>
+        <input id="zoom-slider" type="range" onchange="adjustZoom(this.value)" />
+        <p>Zoom out</p>
+        <p id="zoom-level"></p>
+    </div>
+</body>
+</html>
